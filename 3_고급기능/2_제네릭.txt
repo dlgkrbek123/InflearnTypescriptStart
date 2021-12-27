@@ -1,0 +1,57 @@
+------------------------------------------------------------
+
+제네릭
+- 타입정보가 동적으로 결정되는 타입
+- 같은 규칙을 여러 타입에 적용 가능
+- 중복 코드를 제거 가능
+
+function makeNumberArray(defaultValue: number, size: number): number[] {
+  const arr: number[] = [];
+  for(let i=0; i < size; i++) {
+    arr.push(defaultValue);
+  }
+  return arr;
+}
+function makeStringArray(defaultValue: string, size: number): string[] {
+  const arr: string[] = [];
+  for(let i = 0; i < size; i++ ) {
+    arr.push(defaultValue)
+  }
+  return arr;
+}
+
+- 두 함수의 로직은 거의 동일하나 타입만 다름
+
+const arr1 = makeNumberArray(1, 10);
+const arr2 = makeStringArray('empty', 10);
+
+
+- 함수 오버로드로도 가능하긴 함
+- 타입을 추가하고 싶으면 매 번 코드를 수정해야 함
+
+------------------------------------------------------------
+
+function makeArray<T>(defaultValue: T, size: number): T[] {
+  const arr: T[] = [];
+  for(let i = 0; i < size; i++) {
+    arr.push(defaultValue);
+  }
+  return arr;
+}
+
+const arr1 = makeArray<number>(1, 10); // <>안 넣어도 추론해줌
+const arr2 = makeArray<string>('empty', 10);
+
+------------------------------------------------------------
+
+제네릭 타입으로 입력가능한 타입을 제한
+
+function identity<T extends number | string>(p1: T): T {
+  return p1;
+}
+
+identity(1);
+identity("a");
+identity([]); // number와 string만 입력가능!!
+
+------------------------------------------------------------

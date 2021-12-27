@@ -1,0 +1,93 @@
+------------------------------------------------------------
+
+맵드타입
+
+- in키워드를 사용하여 객체를 만든다.
+
+type T1 = { [K in 'prop1' | 'prop2']: boolean } 
+
+T1 = {
+  prop1: boolean;
+  prop2: boolean;
+}
+
+------------------------------------------------------------
+
+- interface의 모든 키를 선택 속성인 boolean으로
+
+interface Person {
+  name: string;
+  age: number;
+}
+
+type MakeBoolean<T> = { [P in keyof T]?: booelan };
+const pMap = MakeBoolean<Person> = {};
+pMap.name = true;
+pMap.age = false;
+
+pMap {
+  name?: boolean;
+  age?. boolean;  
+}
+
+------------------------------------------------------------
+
+type T1 = Person['name'];
+type Readonly<T> = { readonly [P in keyof T]: T[P] }; // 모든 속성에 readonly
+type Partial<T> = { [P in keyof T]?: T[P] };          // 모든 속성을 옵셔널 
+
+type T2 = Partial<Person>;
+type T3 = Readonly<Person>;
+
+------------------------------------------------------------
+
+type Pick<T, K extends keyof T> = { [P in K]: t[p] };
+
+interface Person {
+  name: string;
+  age: number;
+  language: string;
+}
+type T1 = Pick<Person, 'name' | 'language'>;
+
+T1 {
+  name: string;
+  language: string;
+}
+
+------------------------------------------------------------
+
+Record
+
+interface Person {
+  name: string;
+  age: number;
+  language: string;
+}
+
+type Record<K extends string, T> = { [P in K]: T}
+type T1 = Record<'p1' | 'p2', Person>
+
+{
+  p1: Person;
+  p2: Person;
+}
+
+------------------------------------------------------------
+
+enum과 함께 사용
+
+enum Fruit {
+  Apple,
+  Banana,
+  Orange,
+  Orange2
+}
+
+const FRUIT_PRICE: { [K in Fruit]: number } = {
+  [Fruit.Apple]: 1000,
+  [Fruit.Banana]: 1500,
+  // orange를 입력해줘야 함
+}
+
+------------------------------------------------------------

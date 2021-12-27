@@ -1,0 +1,43 @@
+------------------------------------------------------------
+
+조건부 타입
+- 입력된 제네릭 타입에 따라 타입을 결정할 수 있는 기능
+- 삼항 연산자와 유사 (다만 타입이다 값이 아니라)
+
+// T extneds U ? X : Y
+// T가 U에 할당가능하다면 X 아니면 Y
+
+type IsString<T> = T extends string ? 'yes' : 'no'
+type T1 = IsStringType<string>;
+type T2 = IsStringType<number>;
+
+------------------------------------------------------------
+
+- 유니온과 함께 사용
+- 각각의 타입을 적용한 다음에 묶어 준다.
+- 조건부 타입과 사용될 때 조금 다르게 동작
+
+type IsStringType<T> = T extends string ? 'yes' : 'no';
+type T1 = IsStringType<string | number>;
+type T2 = IsStringType<string> | IsStringType<number>;
+
+
+type Array2<T> = Array<T>;
+type T3 = Array2<string | number>; // (string | number)[]
+
+------------------------------------------------------------
+
+Exclude, Extract
+
+
+type T1 = number | string | never;
+
+type Exclude<T, U> = T extends U ? never : T;
+type T2 = Exclude<1 | 3 | 5 | 7, 1 | 5 | 9>; // 3 | 7 
+type T3 = Exclude<string | number | (() => void), Function>; // string, number
+
+
+type Extract<T, U> = T extneds U ? T : never;
+type T4 = Extract<1 | 3 | 5 | 7, 1 | 5 | 9>; // 1 | 5
+
+------------------------------------------------------------
