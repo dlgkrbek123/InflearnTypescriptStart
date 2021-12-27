@@ -1,0 +1,103 @@
+------------------------------------------------------------
+
+enum
+
+- 열거형 타입
+- js에는 없고 ts에만 존재 => 다른 정적타입 언어에서는 있다.
+
+------------------------------------------------------------
+
+export {}
+
+enum Fruit {
+  Apple,
+  Banana,
+  Orange
+}
+// Fruit과 내부의 아이템을 타입으로 사용가능
+// 내부의 아이템은 값으로도 활용가능
+
+const v1: Fruit = Fruit.Apple;
+const v2: Fruit.Apple | Fruit.Banana = Fruit.Banana;
+
+// 첫번째 요소에 값을 할당하지 않으면 기본적으로 0이 할당된다.
+// number나 string이 요소에 할당될 수 있다.
+
+------------------------------------------------------------
+
+- 위의 코드는 아래와 같이 컴파일된다.
+
+var Fruit;
+
+(function(Fruit) {
+  Fruit[(Fruit['Apple'] = 0)] = 'Apple'
+  Fruit[(Fruit['Banana'] = 5)] = 'Banana'
+  Fruit[(Fruit['Orange'] = 6)] = 'Orange'
+})(Fruit || Fruit = {});
+
+
+// 숫자를 입력하는 경우 아래와 같이
+// 이름과 값이 양방향으로 매핑된다.
+
+Fruit = {
+  0: 'Apple',
+  5: 'Banana',
+  6: 'Orange', 
+  Apple : 0,
+  Banana: 5,
+  Orange: 6
+}
+
+------------------------------------------------------------
+
+// enum에 문자열을 할당할 수 있다.
+
+enum Language {
+  Korean: "ko",
+  Japanese: "jp",
+  English: "en"
+}
+
+// 해당 경우 단방향 매핑
+
+var Language;
+(function(Language) {
+  Language["Korean"] = "ko"
+  Language["English"] = "en"
+  Language["Japanese"] = "jp"
+})(Language || (Language = {}))
+
+
+Language = {
+  Korean : "ko",
+  English: "en",
+  Japanese: "jp"  
+}
+
+------------------------------------------------------------
+
+enum에 특정 값이 있는지 확인하는 커스텀 함수
+
+function getIsValidEnumValue(enumObject: any, value: number | string) {
+  return 
+    Object.keys(enumObject)
+    .filter(key => isNaN(Number(key))) // 숫자가 할당된 양방향 매핑을 제거
+    .some(key => enumObject[key] === value) // value가 존재하는지 확인
+}
+
+------------------------------------------------------------
+
+enum은 컴파일 후에도 객체가 남아있다.
+번들파일의 크기를 키운다.
+
+
+const enum을 사용하여 enum객체를 생성되지 않음
+접근하지 않는다면 없애자
+
+const enum Fruit {
+  Apple,
+  Banana,
+  Orange
+}
+
+------------------------------------------------------------

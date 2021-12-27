@@ -1,0 +1,60 @@
+------------------------------------------------------------
+
+- 함수의 타입은 아래와 같이 적용
+- 매개변수 우측에 콜론과 타입을 입력
+- return 타입은 그 이후에 입력
+
+function getText(name: string, age: number): string {
+  const nameText = name.substr(0, 10);
+  const ageText = age >= 35 ? "senior" : "junior";
+  
+  return `name: ${nameText}, age: ${ageText}`;
+}
+
+------------------------------------------------------------
+
+- 변수에 할당할 함수의 타입을 명시시 화살표 기호를 활용
+- 할당되는 함수에는 정의하지 않고 변수부에 입력한다.
+
+const getText: (name: string, age: number) => string = function(name, age) {
+  return ''
+}
+
+------------------------------------------------------------
+
+- ?를 이용하여 optional parameter 선언
+- 선택 매개변수는 중간에 나오면 안됨, 끝에 몰려야 함
+
+function getText(name: string, age: number, language?: string): string {
+  const nameText = name.substr(0, 10);
+  const ageText = age >= 35 ? "senior" : "junior";
+  const languageText = language ? language.substr(0, 10) : ""
+
+  return `name: ${nameText}, age: ${ageText}, language: ${languageText}`
+}
+
+getText("mike", 23, "ko")
+getText("mike", 23)
+getText("mike", 23, 123) // 에러
+
+------------------------------------------------------------
+
+- 매개변수의 기본값 설정
+- 해당 매개변수가 전달되지 않는 경우 채택됨
+
+function getText(name: string, age: number = 15, language = 'korean'): string {
+  return ''
+}
+
+console.log(getText("mike")) // 매개변수의 기본값이 있어 미입력해도 ok
+console.log(getText("mike", 23))
+console.log(getText("jone", 36, "english"))
+
+------------------------------------------------------------
+
+function getText(name: string, ...rest: number[]): string {
+  return ''
+}
+getText("mike", 1, 2, 3)
+
+------------------------------------------------------------
