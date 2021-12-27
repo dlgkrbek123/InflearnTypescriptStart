@@ -1,0 +1,40 @@
+------------------------------------------------------------
+
+함수의 타입을 정의
+
+interface GetText {
+  (name: string, age: number): string;
+}
+// 동일
+// type GetText = (name: string, age: number) => string;
+
+
+const getText: GetText = function(name, age) {
+  const nameText = name.substr(0, 10);
+  const ageText = age >= 35 ? "senior" : "junior";
+  
+  return `name: ${nameText}, age: ${ageText}`;
+}
+
+------------------------------------------------------------
+
+- js의 함수는 근본적으로 객체이므로 속성을 가질 수 있다.
+- 속성값을 정의해보자
+
+interface GetText {
+  (name: string, age: number): string;
+  totalCall?: number;
+}
+
+const getText: GetText = function(name, age) {
+  if(getText.totalCall !== undefined) {
+    getText.totalCall += 1;
+    console.log(`totalCall: ${getText.totalCall}`);
+  }
+  return "";
+}
+getText.totalCall = 0;
+getText('', 0);
+getText('', 0);
+
+------------------------------------------------------------
