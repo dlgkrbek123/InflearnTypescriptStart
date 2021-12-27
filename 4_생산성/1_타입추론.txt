@@ -1,0 +1,63 @@
+------------------------------------------------------------
+
+- 정적언어의 단점은 타입을 정의하는데 노력이 든다는 것이다.
+- 타입추론을 제공해 꼭 필요한 경우에만 타입을 정의하게 해주면서
+  같은 수준의 타입안정성을 제공가능하다.
+
+------------------------------------------------------------
+
+- js와 같이 타입을 명시하지 않아도 ts파일을 작성해도 타입을 추론해준다.
+- const는 let보다 엄격하게 타입이 추론된다.
+
+const v1 = 123; // let이었다면 number => const는 123 리터럴 타입
+cosnt v2 = 'abc'; // let이었다면 string => const는 'abc' 리터럴
+let v3: typeof v1  = 234; // 123만 할당가능한 타입이라 에러
+
+------------------------------------------------------------
+
+배열, 객체의 타입추론
+
+
+const arr1 = [10, 20, 30]; // number[]로 추론
+const [n1, n2, n3] = arr1;
+arr.push('a'); // 에러
+
+const obj = { id: "abcd", age: 123, language: "korean" };
+const { id, age, language } = obj;
+console.log(id === age);
+
+------------------------------------------------------------
+
+인터페이스의 타입추론
+
+
+interface Person {
+  name: string;
+  age: number;
+}
+interface Korean extends Person {
+  liveInSeoul: boolean;
+}
+interface Japanese extends Person {
+  liveInTokyo: boolean;
+}
+
+const p1: Person = { name: "mike", age: 23 };
+const p2: Korean = { name: "mike", age: 25, liveInSeoul: true };
+const p3: Japanese = { name: "mike", age: 27, liveInTokyo: false };
+
+const arr1 = [p1, p2, p3]; // Person[]으로 추론
+const arr2 = [p2, p3]; // (Korean | Japanese)[]로 추론
+
+
+------------------------------------------------------------
+
+함수의 타입추론
+
+
+function func1(a = 'abc', b = 10) {
+  return `${a} ${b}`;
+}
+// (a: string, b: number) => string으로 추론
+
+------------------------------------------------------------
